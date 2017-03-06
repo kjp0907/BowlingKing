@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="300dip"
+        android:layout_height="200dip"
+        android:orientation="vertical"
+        android:background="@color/warning_stroke_color">
+
+        <TextView
+            android:text="볼링장 이름을 검색하세요"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/dialog_text_title" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/gray_btn_bg_pressed_color">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editText"
+                android:layout_weight="1"
+                android:background="@color/cardview_light_background"
+                android:layout_width="wrap_content"
+                android:hint="ex) 낙성대" />
+
+            <SearchView
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="40dip"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="취소"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_left"/>
+
+            <Button
+                android:text="등록"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_right"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

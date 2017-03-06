@@ -1,0 +1,54 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    tools:context="com.example.tacademy.bowlingkingproject.TabPager.Message.MessageTwoParentFragment"
+    android:layout_height="wrap_content">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:id="@+id/message_two"
+
+        android:layout_height="500dp">
+
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내 동호회  :    "
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="T 볼링장"
+                />
+
+            <Button
+                android:text="작성하기"
+                android:layout_height="20dp"
+                android:id="@+id/write"
+                android:background="@drawable/round_background"
+                android:textColor="#f2f2f2"
+                android:onClick="onClickWrite"
+                android:layout_width="60dp"
+                android:layout_marginLeft="145dp" />
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="430dp"
+            android:id="@+id/recyclerView"
+            tools:listitem="@layout/cell_post_layout" />
+
+
+    </LinearLayout>
+</FrameLayout>

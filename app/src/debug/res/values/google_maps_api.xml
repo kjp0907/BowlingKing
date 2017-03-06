@@ -1,0 +1,19 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=34:18:3B:37:DE:44:C3:8C:87:8F:19:5D:C9:69:1E:0D:23:25:CC:8A%3Bcom.example.tacademy.bowlingkingproject.TabPager.Register
+
+    You can also add your credentials to an existing key, using this line:
+    34:18:3B:37:DE:44:C3:8C:87:8F:19:5D:C9:69:1E:0D:23:25:CC:8A;com.example.tacademy.bowlingkingproject.TabPager.frag
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCDZGI5D8FQHSercF_GxqnOxDOrlAz12Io</string>
+</resources>

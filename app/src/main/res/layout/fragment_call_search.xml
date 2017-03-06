@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray"
+
+    >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/white"
+
+        ></View>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:background="@color/white"
+      android:paddingBottom="@dimen/activity_vertical_margin"
+      android:paddingLeft="@dimen/activity_horizontal_margin"
+      android:paddingRight="@dimen/activity_horizontal_margin"
+      >
+
+
+
+      <LinearLayout
+          android:orientation="horizontal"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@color/white"
+          android:drawableTop="@color/gray"
+          android:drawableBottom="@color/gray"
+
+          >
+
+          <LinearLayout
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_weight="1"
+              android:layout_height="wrap_content"
+              android:layout_gravity="center">
+
+              <TextView
+                  android:text="최고점수"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/textView13"
+                  android:textSize="15dp"
+                  android:gravity="center_horizontal" />
+
+              <TextView
+                  android:text="173점"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/bestscore"
+                  android:textColor="@color/red"
+                  android:textSize="30dp"
+                  android:gravity="center" />
+          </LinearLayout>
+
+          <FrameLayout
+              android:layout_width="2dp"
+              android:layout_height="match_parent"
+              android:background="@color/cardview_dark_background">
+
+          </FrameLayout>
+
+          <LinearLayout
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_weight="1"
+              android:layout_height="wrap_content">
+
+              <TextView
+                  android:text="누적기록"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/textView14"
+                  android:gravity="center"
+                  android:textSize="15dp" />
+
+              <TextView
+                  android:text="최고점수"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/textView5"
+                  android:textSize="20sp"
+                  android:gravity="center_horizontal" />
+
+              <LinearLayout
+                  android:orientation="horizontal"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content">
+
+                  <TextView
+                      android:text="개인기록"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/textView10"
+                      android:layout_weight="1"
+                      android:gravity="center"
+                      android:paddingLeft="20dp" />
+
+                  <TextView
+                      android:text="37"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:id="@+id/countgame"
+                      android:textColor="@color/red"
+                      android:layout_weight="1"
+                      android:gravity="center"
+                      android:textSize="26sp"
+                      android:paddingRight="20dp" />
+              </LinearLayout>
+
+          </LinearLayout>
+      </LinearLayout>
+
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="2dp"
+          android:background="@color/cardview_dark_background">
+
+      </FrameLayout>
+
+      <TextView
+          android:text="친구기록"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center_horizontal"
+          android:paddingTop="20dp" />
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal"
+          android:gravity="center_horizontal"
+          android:layout_gravity="center_horizontal">
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              >
+
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  app:srcCompat="@drawable/ic_profile"
+                  android:id="@+id/imageView2" />
+
+              <TextView
+                  android:text="210점"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/friend1"
+                  android:textColor="@color/red"
+                  android:gravity="center_horizontal" />
+
+              <TextView
+                  android:text="볼링킹"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/fr_nickname1"
+                  android:gravity="center_horizontal" />
+
+
+
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              >
+
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  app:srcCompat="@drawable/ic_profile"
+                  />
+
+              <TextView
+                  android:text="210점"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/friend2"
+                  android:textColor="@color/red"
+                  android:gravity="center_horizontal" />
+
+              <TextView
+                  android:text="공유"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/fr_nickname2"
+                  android:gravity="center_horizontal" />
+
+
+
+          </LinearLayout>
+
+          <LinearLayout
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              >
+
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  app:srcCompat="@drawable/ic_profile"
+                  android:id="@+id/imageView3" />
+
+              <TextView
+                  android:text="210점"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/friend3"
+                  android:textColor="@color/red"
+                  android:gravity="center_horizontal" />
+
+              <TextView
+                  android:text="민서"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/fr_nickname3"
+                  android:gravity="center_horizontal" />
+
+
+
+          </LinearLayout>
+
+
+      </LinearLayout>
+
+  </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:background="@android:color/holo_green_light"
+        android:layout_height="160dp">
+        <!-- 화면을 꽉채워서 좌우 스크롤 (페이지 단위) -->
+
+
+        <android.support.v4.view.ViewPager
+            android:layout_width="match_parent"
+            android:id="@+id/viewPagerjp"
+            android:layout_height="match_parent">
+        </android.support.v4.view.ViewPager>
+        <TextView
+            android:text="● ○ ○ ○"
+            android:textSize="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/curDotjp"
+            android:textColor="#ffffff"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"/>
+    </RelativeLayout>
+</LinearLayout>
