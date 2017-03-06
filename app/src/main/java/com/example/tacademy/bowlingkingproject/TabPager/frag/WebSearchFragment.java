@@ -351,7 +351,11 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
 //                                GpsList aaaaa = response.body().getResult().
 //                                GpsList aaaaa = response.body().getResult().getMessage();
 
+
+
                              //   centersArrayList.addAll(response.body().getResult().getCenterData());
+
+
 
 //
 

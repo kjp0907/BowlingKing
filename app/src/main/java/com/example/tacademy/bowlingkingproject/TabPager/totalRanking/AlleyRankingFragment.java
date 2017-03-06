@@ -170,6 +170,7 @@ public class AlleyRankingFragment extends Fragment {
     }
 
     class AlleyListViewAdapter extends BaseAdapter {
+
         @Override
         public int getCount() {
             return alleyArrayLists.size();
