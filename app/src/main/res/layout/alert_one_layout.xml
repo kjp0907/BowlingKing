@@ -3,74 +3,84 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="300dip"
         android:layout_height="200dip"
         android:orientation="vertical"
-        android:background="@color/warning_stroke_color">
-
-    <TextView
-        android:text="점수를 등록하세요"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/dialog_text_title"
-      />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="@color/gray_btn_bg_pressed_color">
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:background="@color/white">
 
         <TextView
-            android:text='"볼링왕"님은'
-            android:layout_width="wrap_content"
+            android:text="점수를 등록하세요"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/dialog_text_content_one"
-            android:layout_weight="1" />
+            android:id="@+id/dialog_text_title"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_center"
-            android:onClick="onScoreButton"
-            android:layout_weight="1"
-            android:hint="스코어" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:background="@color/gray_btn_bg_pressed_color"
+            android:layout_height="3dp">
 
-        <TextView
-            android:text="점 입니다"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dialog_text_content_two"
-            android:layout_weight="1" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:text='"볼링왕"님은'
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dialog_text_content_one"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_center"
+                android:onClick="onScoreButton"
+                android:layout_weight="1"
+                android:hint="점수입력"
+                android:inputType="number"
+                android:ems="3" />
+
+
+            <TextView
+                android:text="점 입니다"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/dialog_text_content_two"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_marginTop="40dip"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="취소"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_left"
+                android:textColor="@color/white"
+
+                android:background="@drawable/round_gray"/>
+
+            <Button
+                android:text="등록"
+                android:layout_width="150dp"
+                android:textColor="@color/white"
+                android:background="@drawable/round_background"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_right"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_marginTop="40dip"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:text="취소"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_left"/>
-
-        <Button
-            android:text="등록"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_right"/>
-    </LinearLayout>
-    </LinearLayout>
-    </LinearLayout>
+</LinearLayout>

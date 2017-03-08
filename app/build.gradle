@@ -5,6 +5,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion '24.0.1'
     defaultConfig {
+        multiDexEnabled true
         applicationId "com.example.tacademy.bowlingkingproject"
         minSdkVersion 16
         targetSdkVersion 24
@@ -83,5 +84,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:retrofit-converters:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.android.support:multidex:1.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

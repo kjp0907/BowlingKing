@@ -12,6 +12,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -21,20 +23,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.tacademy.bowlingkingproject.Dialog.CustomDialog;
-import com.example.tacademy.bowlingkingproject.Dialog.CustomDialogTwo;
+import com.example.tacademy.bowlingkingproject.Dialog.CustomScoreDialog;
 import com.example.tacademy.bowlingkingproject.Dialog.LocationDialog;
 import com.example.tacademy.bowlingkingproject.R;
 import com.example.tacademy.bowlingkingproject.Server.NetSSL;
+import com.example.tacademy.bowlingkingproject.Server.ReviseServer.CenterData;
+import com.example.tacademy.bowlingkingproject.Server.ReviseServer.PictureTest.ResPictureTest;
 import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ResCenters;
+import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ResDetail;
 import com.example.tacademy.bowlingkingproject.TabPager.Register.GpsInfo;
+import com.example.tacademy.bowlingkingproject.TabPager.Register.HandlerSing;
+import com.example.tacademy.bowlingkingproject.TabPager.Register.LocationData;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -52,14 +58,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.miguelbcr.ui.rx_paparazzo.RxPaparazzo;
 import com.miguelbcr.ui.rx_paparazzo.entities.size.SmallSize;
 import com.squareup.picasso.Picasso;
@@ -69,9 +69,14 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -80,7 +85,6 @@ import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION_CODES.M;
-
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -99,9 +103,11 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
     double x,y; //위도 경도
 
     //볼링장 리스트
-    ArrayList<ResCenters> centersArrayList;
+    ArrayList<CenterData> centersArrayLists;
+    ArrayList<LocationData> centerneedsLists;
     ListView centerlist;
-    //CenterListAdpater center_adapter;
+    CenterListAdpater center_adapter;
+    String Centername;
 
 
 
@@ -109,7 +115,7 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
     TextView logView;
 
 
-    LocationDialog locationDialog;
+    // LocationDialog locationDialog;
 
 
     int PERMISSION_ACCESS_FINE_LOCATION = 10;
@@ -177,8 +183,6 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
 
     private String path;
 
-
-    EditText alleysearchjp;
 
     ImageView cameraimageView;
     TextView scoretoastjp;
@@ -258,30 +262,45 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
 
         View view = inflater.inflate(R.layout.fragment_web_search, container, false);
 
+
+        HandlerSing.getInstance().setHandler(handler);
+        centerneedsLists = new ArrayList<LocationData>();
+
         context=getActivity();
         scoretoastjp= (TextView) view.findViewById(R.id.scoretoastjp);
-        alleysearchjp = (EditText) view.findViewById(R.id.alleysearchjp);
-        alleysearchjp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCustomDialogTwo = new CustomDialogTwo(getActivity(),
-                        "볼링장 이름을 검색하세요", // 제목
-                        leftListenerTwo, // 왼쪽 버튼 이벤트
-                        rightListenerTwo); // 오른쪽 버튼 이벤트
-                mCustomDialogTwo.show();
-            }
-        });
+        alleysearchjp = (TextView)view.findViewById(R.id.alleysearchjp);
+
         scoretoastjp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCustomDialog = new CustomDialog(getActivity(),
-                        "점수를 등록하세요", // 제목
-                        "/'볼링왕/'님은",
-                        "점 입니다", // 내용
-                        leftListener, // 왼쪽 버튼 이벤트
-                        rightListener, // 오른쪽 버튼 이벤트
-                        centerListener);
-                mCustomDialog.show();
+                Call<ResDetail> res = NetSSL.getInstance().getMemberImpFactory().sevenDetail(-1);
+                res.enqueue(new Callback<ResDetail>() {
+                    @Override
+                    public void onResponse(Call<ResDetail> call, Response<ResDetail> response) {
+                        if (response.isSuccessful()) {
+                            if( response.body()!=null && response.body().getResult() != null ){
+                                mCustomDialog = new CustomScoreDialog(getActivity(),
+                                        "점수를 등록하세요", // 제목
+                                        ""+response.body().getResult().getUserData().getUserName() +"  님의 점수는", //앞의 내용
+                                        "점 입니다", // 뒤의 내용
+                                        leftListener, // 왼쪽 버튼 이벤트
+                                        rightListener, // 오른쪽 버튼 이벤트
+                                        centerListener);
+                                mCustomDialog.show();
+                                Log.i("RF" ,"1성공:" + response.body().getResult().toString());
+                            } else {
+                                Log.i("RF", "2실패:" + response.message());
+                            }
+                        } else {
+                            Log.i("RF", "3통신은 됬는데 실패:" + response.message());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ResDetail> call, Throwable t) { //통신 자체 실패
+                        Log.i("RF", " onBoardSearch  4아예 통신오류" + t.getMessage());
+                    }
+                });
+
             }
         });
         cameraimageView = (ImageView)view.findViewById(R.id.cameraimageView);
@@ -325,8 +344,13 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
 
         // 위치검색 다이얼로그 설정 / 리스트 설정 ==================================================================
 
+        center_adapter = new CenterListAdpater();
+
+
         location_btn = (Button)view.findViewById(R.id.bowling);
         // GPS 정보를 보여주기 위한 이벤트 클래스 등록
+
+        Handler handler = new Handler();
 
         location_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -334,6 +358,8 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
 
 
 
+
+                centersArrayLists = new ArrayList<CenterData>();
 
                 Toast.makeText(getContext(), "위치조회", Toast.LENGTH_SHORT).show();
                 Call<ResCenters> res = NetSSL.getInstance().getMemberImpFactory().thirteenAlleySearch(x, y);
@@ -348,17 +374,17 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
 //                        ResArticles resArticles = response.body();
 
                                 Log.i("RF", "gps 인근 리스트"+ response.body().getResult().toString());
-//                                GpsList aaaaa = response.body().getResult().
-//                                GpsList aaaaa = response.body().getResult().getMessage();
-
-
-
-                             //   centersArrayList.addAll(response.body().getResult().getCenterData());
-
 
 
 //
+                                centersArrayLists.addAll(response.body().getResult().getCenterData());
+                                center_adapter.notifyDataSetChanged();
 
+                                final LocationDialog dialog= new LocationDialog(context,centersArrayLists);
+                                dialog.setContentView(R.layout.dialog_location);
+                                dialog.setTitle("볼링장 이름을 검색하세요.");
+
+                                dialog.show();
 
 
 
@@ -376,20 +402,6 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
                         Log.i("RF", " onBoardSearch  4아예 통신오류" + t.getMessage());
                     }
                 });
-
-                 final LocationDialog dialog= new LocationDialog(context);
-                    dialog.setContentView(R.layout.dialog_location);
-                    dialog.setTitle("볼링장 이름을 검색하세요.");
-
-                    dialog.show();
-
-
-
-
-
-
-
-
             }
         });
 
@@ -410,7 +422,7 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
             Log.i("GPS","Google api 사용 가능");
             checkGpsUseOn();
         } else {
-         //   api.getErrorDialog(this, code, 0).show();
+            //   api.getErrorDialog(this, code, 0).show();
         }
 
 
@@ -418,38 +430,111 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
         return view;
     }
 
+    TextView alleysearchjp;
+    android.os.Handler handler = new android.os.Handler(){
 
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==0){
+                String[] location = (String[])msg.obj;
 
+                Log.i("AB","WebFrag"+location[1]);
+                Centername=location[1];
+                alleysearchjp.setText(Centername);
 
-
-//gps
-public void checkGpsUseOn()
-{
-    if( Build.VERSION.SDK_INT >= M ){
-        int permissionCheck = ContextCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.ACCESS_FINE_LOCATION)){
-                // 동의 되었다
-                //getAddress();
-                checkGpsDetectingOn(1);
-            }else{
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        PERMISSION_ACCESS_FINE_LOCATION);
+                Log.i("AB","Centername"+Centername);
             }
-        } else {
-            // 동의후 6.0이상에서는 퍼미션을 동의 했으므로 바로 실행
-            //getAddress();
-            checkGpsDetectingOn(2);
+
         }
-    }else{
-        // 6.0 이하 단말기는 동의가 필요 없으므로 바로 실행
-        //getAddress();
-        checkGpsDetectingOn(3);
+    };
+
+
+    class CenterListAdpater extends BaseAdapter{
+        @Override
+        public int getCount() {
+            return centerneedsLists.size();
+        }
+
+        @Override
+        public LocationData getItem(int position) {
+            return centerneedsLists.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ViewCenterHolder centerHolder;
+            if (convertView == null) {
+                convertView = getActivity().getLayoutInflater().inflate(R.layout.locationlistitem, null);
+                centerHolder = new ViewCenterHolder(convertView);
+                convertView.setTag(centerHolder);
+            } else {
+                centerHolder = (ViewCenterHolder) convertView.getTag();
+            }
+
+            // Log.i("dataaaaaa", "" + ress.body().getResult().getRankData().getData().get(position).toString());
+            CenterData locationData =centersArrayLists.get(position);
+            centerHolder.centername.setText(locationData.getCenterName());
+            centerHolder.distance.setText(""+locationData.getDistance());
+
+
+            return convertView;
+        }
     }
-}
+
+    class ViewCenterHolder{
+
+
+        @BindView(R.id.alleyname)
+        TextView centername;
+
+        @BindView(R.id.distance)
+        TextView distance;
+
+
+
+        public ViewCenterHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+    }
+
+
+
+
+
+    //gps
+    public void checkGpsUseOn()
+    {
+        if( Build.VERSION.SDK_INT >= M ){
+            int permissionCheck = ContextCompat.checkSelfPermission(context,
+                    Manifest.permission.ACCESS_FINE_LOCATION);
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                        Manifest.permission.ACCESS_FINE_LOCATION)){
+                    // 동의 되었다
+                    //getAddress();
+                    checkGpsDetectingOn(1);
+                }else{
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            PERMISSION_ACCESS_FINE_LOCATION);
+                }
+            } else {
+                // 동의후 6.0이상에서는 퍼미션을 동의 했으므로 바로 실행
+                //getAddress();
+                checkGpsDetectingOn(2);
+            }
+        }else{
+            // 6.0 이하 단말기는 동의가 필요 없으므로 바로 실행
+            //getAddress();
+            checkGpsDetectingOn(3);
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -730,87 +815,104 @@ public void checkGpsUseOn()
         Picasso.with(context).invalidate(url);
         Picasso.with(context).load(url).into(cameraimageView);
 
-
-        FirebaseStorage storage = FirebaseStorage.getInstance(); //시작하기
-        ////////////////파일 삭제/////////////////////////////////////
-        // 나무 기둥의 주소
-        StorageReference delFileRef   =
-//                storage.getReferenceFromUrl("gs://newjp-a4338.appspot.com/Lighthouse.jpg");
-        storage.getReferenceFromUrl("gs://databasetest-b3068.appspot.com");
+        sendProfilePhoto(path);
 
 
-        delFileRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.i("KK", "성공");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Uh-oh, an error occurred!
-                Log.i("KK", "실패:"+exception.getMessage());
-            }
-        });
-        ////////////////파일 업로드//업로드 방식 3가지 : 이미지 뷰, 스트링, 로컬
-        //나무 기둥의 주소(파이어베이스의 <참조하기>의 코딩 복붙)
-        StorageReference root = storage.getReferenceFromUrl("gs://databasetest-b3068.appspot.com"); //storage.getReferenceFromUrl 먼저 코딩 짜고 위로 찾아가서 뿌리 만들기
-        //new File(path); //파일을 붙이고 위에서 또 붙이니 못 찾는것이므로
-        Uri uri = Uri.fromFile(new File(path));
-        //내 프로필 사진이 등록되는 최종 경로
-        String uploadName = "profile/" + uri.getLastPathSegment(); //"file://"+path; url이 있으니 정보를 얻기 위하여 file을 만들어야됨
-        //나무 기둥에 참조 경로인 가지 등록(파이어베이스의 <파일 업로드>의 코딩 복붙)
-        StorageReference riversRef = root.child("images/"+uri.getLastPathSegment());
-        //업로드
-        UploadTask uploadTask = riversRef.putFile(uri);
-        //이벤트 등록 및 처리
-        uploadTask.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                //실패 -> 재시도를 하게끔 유도
-            }
-        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();  //downLoadUrl.toString() => 프로필 정보로 업데이트
-                //SharedPreferences sp = getSharedPreferences("autologin", MODE_PRIVATE);
-                //SharedPreferences.Editor editor = sp.edit();
-                //editor.putString("url", downloadUrl.toString());
-                //editor.commit();
-                Log.i("Test","프로필 사진 URl ; " + downloadUrl.toString());
-                //downloadUrl.toString();
-                Log.i("Test","SharedPreference에 사진 저장");
-                Log.i("Test", downloadUrl.toString());
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                //진행율
-                float rate = (taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount())*100.0f;
-                Log.i("Test", "진행율"+rate);
-            }
-        });
-
-    }
-
-
-    /////////////////////////////////////////////
-    private CustomDialog mCustomDialog;
-    public void onClickDialogJp(View v) {
-        switch (v.getId()) {
-            case R.id.scoretoastjp:
-                mCustomDialog = new CustomDialog(getActivity(),
-                        "", // 제목
-                        "", // 내용
-                        "",
-                        leftListener, // 왼쪽 버튼 이벤트
-                        rightListener, // 오른쪽 버튼 이벤트
-                        centerListener);
-                mCustomDialog.show();
-                break;
-        }
+//        FirebaseStorage storage = FirebaseStorage.getInstance(); //시작하기
+//        ////////////////파일 삭제/////////////////////////////////////
+//        // 나무 기둥의 주소
+//        StorageReference delFileRef   =
+////                storage.getReferenceFromUrl("gs://newjp-a4338.appspot.com/Lighthouse.jpg");
+//        storage.getReferenceFromUrl("gs://databasetest-b3068.appspot.com");
+//
+//
+//        delFileRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void aVoid) {
+//                Log.i("KK", "성공");
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                // Uh-oh, an error occurred!
+//                Log.i("KK", "실패:"+exception.getMessage());
+//            }
+//        });
+//        ////////////////파일 업로드//업로드 방식 3가지 : 이미지 뷰, 스트링, 로컬
+//        //나무 기둥의 주소(파이어베이스의 <참조하기>의 코딩 복붙)
+//        StorageReference root = storage.getReferenceFromUrl("gs://databasetest-b3068.appspot.com"); //storage.getReferenceFromUrl 먼저 코딩 짜고 위로 찾아가서 뿌리 만들기
+//        //new File(path); //파일을 붙이고 위에서 또 붙이니 못 찾는것이므로
+//        Uri uri = Uri.fromFile(new File(path));
+//        //내 프로필 사진이 등록되는 최종 경로
+//        String uploadName = "profile/" + uri.getLastPathSegment(); //"file://"+path; url이 있으니 정보를 얻기 위하여 file을 만들어야됨
+//        //나무 기둥에 참조 경로인 가지 등록(파이어베이스의 <파일 업로드>의 코딩 복붙)
+//        StorageReference riversRef = root.child("images/"+uri.getLastPathSegment());
+//        //업로드
+//        UploadTask uploadTask = riversRef.putFile(uri);
+//        //이벤트 등록 및 처리
+//        uploadTask.addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception exception) {
+//                //실패 -> 재시도를 하게끔 유도
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                Uri downloadUrl = taskSnapshot.getDownloadUrl();  //downLoadUrl.toString() => 프로필 정보로 업데이트
+//                //SharedPreferences sp = getSharedPreferences("autologin", MODE_PRIVATE);
+//                //SharedPreferences.Editor editor = sp.edit();
+//                //editor.putString("url", downloadUrl.toString());
+//                //editor.commit();
+//                Log.i("Test","프로필 사진 URl ; " + downloadUrl.toString());
+//                //downloadUrl.toString();
+//                Log.i("Test","SharedPreference에 사진 저장");
+//                Log.i("Test", downloadUrl.toString());
+//            }
+//        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+//            @Override
+//            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+//                //진행율
+//                float rate = (taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount())*100.0f;
+//                Log.i("Test", "진행율"+rate);
+//            }
+//        });
 
     }
+    public void sendProfilePhoto(String path){
+        // 사진 서버 업로드 --------------------------------------------------------------------------
+        Map<String, RequestBody> map = new HashMap<>();
+
+        File file = new File(path); // 이미지파일주소는 확인됨
+
+        Log.i("RF", file.getAbsolutePath() + "++" + file.canRead());
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        map.put("profile\"; filename=\"score.jpg\"", fileBody);
+
+        Call<ResPictureTest> res = NetSSL.getInstance().getMemberImpFactory().pictureTest(map);
+        res.enqueue(new Callback<ResPictureTest>() {
+            @Override
+            public void onResponse(Call<ResPictureTest> call, Response<ResPictureTest> response) {
+                if (response.toString() != null) {
+                    Log.i("RF", "프로필 사진 변경 성공:" + response.toString());
+                    //loadProfile();
+                    //             Log.i("RF","가입성공:"+response.body().getResult().toString());
+                } else {
+                    Log.i("RF", "프로필 사진 변경 실패:" + response.body().getError().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResPictureTest> call, Throwable t) {
+                Log.i("RF", "프로필 사진 변경  통신오류" + t.getMessage());
+            }
+        });
+    }
+
+    //////////////////////////////////////////////
+    private CustomScoreDialog mCustomDialog;
     private View.OnClickListener leftListener = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getActivity(), "왼쪽버튼 클릭",
@@ -830,33 +932,27 @@ public void checkGpsUseOn()
                     Toast.LENGTH_SHORT).show();
         }
     };
-    /////////////////////////////////////
-    private CustomDialogTwo mCustomDialogTwo;
-    public void onClickDialogJpTwo(View v) {
-        switch (v.getId()) {
-            case R.id.alleysearchjp:
-                mCustomDialogTwo = new CustomDialogTwo(getActivity(),
-                        "", // 제목
-                        leftListenerTwo, // 왼쪽 버튼 이벤트
-                        rightListenerTwo); // 오른쪽 버튼 이벤트
-                mCustomDialogTwo.show();
-                break;
-        }
 
-    }
-    private View.OnClickListener leftListenerTwo = new View.OnClickListener() {
+
+    private LocationDialog locationDialog;
+
+    private View.OnClickListener location_no = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getActivity(), "왼쪽버튼 클릭",
                     Toast.LENGTH_SHORT).show();
-            mCustomDialogTwo.dismiss();
+            locationDialog.dismiss();
         }
     };
-    private View.OnClickListener rightListenerTwo = new View.OnClickListener() {
+    private View.OnClickListener location_ok = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getActivity(), "오른쪽버튼 클릭",
                     Toast.LENGTH_SHORT).show();
         }
     };
+
+
+
+
 
     /////////////////////////////////////////////////////
     public void onButtonPressed(Uri uri) {

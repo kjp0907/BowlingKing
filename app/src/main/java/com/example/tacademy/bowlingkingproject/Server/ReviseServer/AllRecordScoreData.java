@@ -1,9 +1,5 @@
 package com.example.tacademy.bowlingkingproject.Server.ReviseServer;
 
-/**
- * Created by Tacademy on 2017-02-28.
- */
-
 public class AllRecordScoreData {
     int playScore; //92 // 볼링 경기 점수
     int scoreId; //208 // 볼링 경기 번호(인덱스)

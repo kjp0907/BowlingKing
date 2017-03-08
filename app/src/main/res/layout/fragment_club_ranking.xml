@@ -105,11 +105,14 @@
             android:textColor="@color/red"
             />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/club_my_listview"
-            />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/club_my_listview"
+        />
+
+
+
 
 
         <FrameLayout

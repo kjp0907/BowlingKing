@@ -698,7 +698,7 @@ public class Main2Activity extends AppCompatActivity {
         // photo.jpg는 xxxx.jpg로
         // photos=> 파일받는키, 파일명은 중요하지 않음 =>score.jpg
         map.put("test_pic\"; filename=\"score.jpg\"", fileBody);
-
+        Log.e("파일바디 : ",""+fileBody);
         Call<ResPictureTest> res = NetSSL.getInstance().getMemberImpFactory().pictureTest(map);
         res.enqueue(new Callback<ResPictureTest>() {
             @Override

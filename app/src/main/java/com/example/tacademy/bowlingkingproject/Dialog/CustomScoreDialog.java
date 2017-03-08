@@ -1,22 +1,24 @@
 package com.example.tacademy.bowlingkingproject.Dialog;
 
+
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tacademy.bowlingkingproject.R;
 
-public class CustomDialog extends Dialog {
+public class CustomScoreDialog extends Dialog {
     private TextView mTitleView;
     private TextView mContentOneView;
     private TextView mContentTwoView;
     private Button mLeftButton;
     private Button mRightButton;
-    private Button mCenterButton;
+    private EditText mCenterButton;
     private String mTitle;
     private String mContentone;
     private String mContenttwo;
@@ -42,7 +44,7 @@ public class CustomDialog extends Dialog {
         mContentTwoView = (TextView) findViewById(R.id.dialog_text_content_two);
         mLeftButton = (Button) findViewById(R.id.btn_left);
         mRightButton = (Button) findViewById(R.id.btn_right);
-        mCenterButton = (Button) findViewById(R.id.btn_center);
+        mCenterButton = (EditText) findViewById(R.id.btn_center);
 
         // 제목과 내용을 생성자에서 셋팅한다.
         mTitleView.setText(mTitle);
@@ -50,7 +52,7 @@ public class CustomDialog extends Dialog {
         mContentTwoView.setText(mContenttwo);
 
         // 클릭 이벤트 셋팅
-        if (mLeftClickListener != null && mRightClickListener != null && mCenterClickListener != null ) {
+        if (mLeftClickListener != null && mRightClickListener != null && mCenterClickListener != null) {
             mLeftButton.setOnClickListener(mLeftClickListener);
             mRightButton.setOnClickListener(mRightClickListener);
             mCenterButton.setOnClickListener(mCenterClickListener);
@@ -60,15 +62,14 @@ public class CustomDialog extends Dialog {
                 ) {
             mLeftButton.setOnClickListener(mLeftClickListener);
             mRightButton.setOnClickListener(mRightClickListener);
-        }  else if (mLeftClickListener != null
-            && mRightClickListener == null
-            && mCenterClickListener != null
-            ) {
-        mLeftButton.setOnClickListener(mLeftClickListener);
-        mCenterButton.setOnClickListener(mCenterClickListener);
+        } else if (mLeftClickListener != null
+                && mRightClickListener == null
+                && mCenterClickListener != null
+                ) {
+            mLeftButton.setOnClickListener(mLeftClickListener);
+            mCenterButton.setOnClickListener(mCenterClickListener);
 
-    }
-    else {
+        } else {
 
         }
     }
@@ -82,9 +83,10 @@ public class CustomDialog extends Dialog {
 //    }
 
     // 클릭버튼이 확인과 취소 두개일때 생성자 함수로 이벤트를 받는다
-    public CustomDialog(Context context, String title,
-                        String contentOne, String contentTwo, View.OnClickListener leftListener,
-                        View.OnClickListener rightListener, View.OnClickListener centerListener) {
+
+    public CustomScoreDialog(Context context, String title,
+                             String contentOne, String contentTwo, View.OnClickListener leftListener,
+                             View.OnClickListener rightListener, View.OnClickListener centerListener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.mTitle = title;
         this.mContentone = contentOne;

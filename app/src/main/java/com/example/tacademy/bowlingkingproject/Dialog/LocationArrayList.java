@@ -10,11 +10,7 @@ public class LocationArrayList {
     String alleyname;
     String distance;
 
-    public LocationArrayList(String alleyname, String distance) {
 
-        this.alleyname = alleyname;
-        this.distance = distance;
-    }
 
     public String getAlleyname() {
         return alleyname;
@@ -29,6 +25,12 @@ public class LocationArrayList {
     }
 
     public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public LocationArrayList(String alleyname, String distance) {
+
+        this.alleyname = alleyname;
         this.distance = distance;
     }
 }

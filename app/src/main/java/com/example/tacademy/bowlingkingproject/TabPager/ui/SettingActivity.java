@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.tacademy.bowlingkingproject.MainActivity;
 import com.example.tacademy.bowlingkingproject.R;
 import com.example.tacademy.bowlingkingproject.Server.NetSSL;
+import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ResUsersFive;
 import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ResUsersSix;
 
 import retrofit2.Call;
@@ -58,5 +59,34 @@ public class SettingActivity extends AppCompatActivity {
 
         Intent intent =new Intent (this,MainActivity.class);
         startActivity(intent);
+    }
+
+
+    public void onWithdrawal(View view){
+        Toast.makeText(this, "회원 탈퇴", Toast.LENGTH_SHORT).show();
+        Call<ResUsersFive> res = NetSSL.getInstance().getMemberImpFactory().fiveByeBye();
+        res.enqueue(new Callback<ResUsersFive>() {
+            @Override
+            public void onResponse(Call<ResUsersFive> call, Response<ResUsersFive> response) {
+                if (response.isSuccessful()) {
+                    if( response.body()!=null && response.body().getResult() != null ){
+                        //ArticlesData aad = response.body().getResult().getArticlesData();
+                        //ArticlesData aad = response.body().getResult().getMessage();
+                        //Log.i("RF","1성공:"+aad.toString());
+//                        ResArticles resArticles = response.body();
+                        Log.i("RF" ,"1성공:" + response.body().getResult().toString());
+                    } else {
+                        Log.i("RF", "2실패:" + response.message());
+                    }
+                } else {
+                    Log.i("RF", "3통신은 됬는데 실패:" + response.message());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResUsersFive> call, Throwable t) { //통신 자체 실패
+                Log.i("RF", " onBoardSearch  4아예 통신오류" + t.getMessage());
+            }
+        });
+
     }
 }

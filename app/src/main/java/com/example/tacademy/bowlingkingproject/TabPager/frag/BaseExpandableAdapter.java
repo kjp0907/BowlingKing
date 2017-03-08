@@ -1,7 +1,6 @@
 package com.example.tacademy.bowlingkingproject.TabPager.frag;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,13 +61,6 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
             viewHolder = (ViewHolder)v.getTag();
         }
 
-        // 그룹을 펼칠때와 닫을때 아이콘을 변경해 준다.
-        if(isExpanded){
-            viewHolder.iv_image.setBackgroundColor(Color.GREEN);
-        }else{
-            viewHolder.iv_image.setBackgroundColor(Color.WHITE);
-        }
-
         viewHolder.tv_groupName.setText(getGroup(groupPosition));
 
         return v;
@@ -114,7 +106,7 @@ public class BaseExpandableAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public boolean hasStableIds() {	return true; }
+    public boolean hasStableIds() {   return true; }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) { return true; }

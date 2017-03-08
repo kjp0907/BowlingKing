@@ -13,6 +13,8 @@
     <uses-feature android:name="android.hardware.camera2" />
 
     <application
+
+        android:largeHeap="true"
         android:name=".Advertisement.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/bowolinglogo"

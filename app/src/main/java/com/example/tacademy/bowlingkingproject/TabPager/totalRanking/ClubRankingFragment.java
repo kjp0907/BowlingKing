@@ -19,7 +19,6 @@ import com.example.tacademy.bowlingkingproject.R;
 import com.example.tacademy.bowlingkingproject.Server.ConData;
 import com.example.tacademy.bowlingkingproject.Server.NetSSL;
 import com.example.tacademy.bowlingkingproject.Server.ResAll;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +71,8 @@ public class ClubRankingFragment extends Fragment {
         clubArrayLists = new ArrayList<ConData>();
 
 
+
+
         // [ 서버 통신 ] 동호회 =========================================================
 
 
@@ -96,18 +97,7 @@ public class ClubRankingFragment extends Fragment {
                 //  Log.i("zz",""+response.body().getResult().getRankData().getData());
 
                 Log.i("login","dd");
-//                           if (ress != null) {
-                                // String playDate, String c00000000000000enterName, String pic, String myRank) {
-                                //      MyData  myData= new MyData("아이디","123","158","11/12","디딤돌볼ㄹ")
-//                                Log.d("ress1111111", response.toString());
-//                           } else {
-//                                Log.d("ress", "NULLLLLLLLLL");`
-//                           if (response.isSuccessful()) {
-//                Log.d("login", "onResponse" + new Gson().toJson(response.body().getResult().getRankData().getData()));
-                Log.d("login", "My" + new Gson().toJson(response.body().getResult().getMyData()));
-
-//                            } else {
-//                                Log.d("login", "랭킹정보   실패 ");
+//
             }
 
 

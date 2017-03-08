@@ -2,6 +2,7 @@ package com.example.tacademy.bowlingkingproject.Advertisement;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.example.tacademy.bowlingkingproject.Server.NetSSL;
 import com.example.tacademy.bowlingkingproject.Server.StorageHelper;
@@ -77,4 +78,12 @@ public class GlobalApplication extends Application // 처음 꽉 잡게 상속 �
             };
         }
     }
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
 }

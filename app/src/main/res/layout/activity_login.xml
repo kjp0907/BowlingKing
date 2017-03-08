@@ -28,7 +28,8 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/loginid"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:hint="sj094k" />
 
 
     </LinearLayout>
@@ -58,7 +59,8 @@
             android:inputType="textPassword"
             android:ems="10"
             android:id="@+id/loginpassword"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:hint="stlhj3262" />
     </LinearLayout>
 
 
@@ -77,8 +79,14 @@
             />
 
 
-
     </LinearLayout>
+
+    <TextView
+        android:text="제발 기록삭제 누르지마세요ㅠ"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView8"
+        android:textSize="30sp" />
 
 
 </LinearLayout>

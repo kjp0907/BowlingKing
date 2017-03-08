@@ -6,17 +6,17 @@
     android:paddingLeft="7dp"
     android:paddingRight="7dp"
     android:background="@drawable/dialog_round"
+
     >
 
 
+<ListView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/locationlistitem"
+    ></ListView>
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/locationlistitem"
 
-
-        />
 
 
     <LinearLayout
@@ -46,8 +46,8 @@
             android:layout_weight="1"
             android:textColor="@color/white"
             android:text="선택"
+            android:id="@+id/oklocation"
             android:background="@drawable/round_red"
-            android:id="@+id/ok_location"
             />
 
     </LinearLayout>
