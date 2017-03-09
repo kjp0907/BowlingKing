@@ -40,6 +40,7 @@ public class LocationDialog extends Dialog {
     RadioButton radioButton;
     String[] location =new String[2];
 
+
     private int mSelectedRadioPosition;
     private RadioButton mLastSelectedRadioButton;
 
@@ -69,6 +70,7 @@ public class LocationDialog extends Dialog {
                     Message msg = HandlerSing.getInstance().getHandler().obtainMessage();
                     msg.what=0;
                     msg.obj=location;
+                    msg.arg1=centerId;
                     Log.i("AB","Dialog"+location[1]);
                     HandlerSing.getInstance().getHandler().sendMessage(msg);
                     dismiss();
@@ -115,6 +117,7 @@ public class LocationDialog extends Dialog {
         TextView alleyname;
         @BindView(R.id.distance)
         TextView distance;
+
         @BindView(R.id.locationradio)
         RadioButton locationradio;
 
@@ -170,28 +173,14 @@ public class LocationDialog extends Dialog {
             locationHolder.locationradio.setOnCheckedChangeListener(new Check(locationHolder));
 
 
-
-
-
             if(mSelectedRadioPosition == position) {
                 locationHolder.locationradio.setChecked(true);
             } else {
                 locationHolder.locationradio.setChecked(false);
             }
 
-
-
-
             return convertView;
         }
-
-
-
-
-
-
-
-
 
 
         final String NS = "http://schemas.android.com/apk/res/com.huewu.example.checkable";
@@ -245,6 +234,7 @@ public class LocationDialog extends Dialog {
     }
     class Check implements CompoundButton.OnCheckedChangeListener
     {
+
         LocationHolder holder;
         public Check(LocationHolder holder){
             this.holder = holder;
@@ -252,11 +242,22 @@ public class LocationDialog extends Dialog {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             if(isChecked){
-                for(RadioButton r : rb){
-                    if( !buttonView.equals(r))
-                        r.setChecked(false);
+                for(int i=0; i<rb.size()-1 ;i++){
+
+                    if( !buttonView.equals(rb.get(i))) {
+                        rb.get(i).setChecked(false);
+                    }
+                    else
+                    {
+                        centerId=centerDatas.get(i).getCenterId();
+                        Log.i("AB/C","centerId  :  "+centerId);
+                    }
+
                 }
+
                 location[1]= holder.alleyname.getText().toString();
+
+
 
                 Log.i("AB/C",location[1]);
 
@@ -275,6 +276,8 @@ public class LocationDialog extends Dialog {
 
 
     ArrayList<CenterData> centerDatas;
+   int centerId;
+    int center_id1,center_id2,center_id3;
     public LocationDialog(Context context, ArrayList<CenterData> centerDatas) {
 
 
@@ -304,6 +307,13 @@ public class LocationDialog extends Dialog {
         locationArrayLists.add(locationlist1);
         locationArrayLists.add(locationlist2);
 
+        center_id1=centerDatas.get(0).getCenterId();
+        center_id2=centerDatas.get(1).getCenterId();
+        center_id3=centerDatas.get(2).getCenterId();
+
+        Log.d("AB/C","=========="+center_id1);
+        Log.d("AB/C","=========="+center_id2);
+        Log.d("AB/C","=========="+center_id3);
 
 
 /*

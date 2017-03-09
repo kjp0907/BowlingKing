@@ -8,6 +8,15 @@ import android.os.Handler;
 public class HandlerSing {
 
     android.os.Handler handler;
+    android.os.Handler scorehandler;
+
+    public Handler getScorehandler() {
+        return scorehandler;
+    }
+
+    public void setScorehandler(Handler scorehandler) {
+        this.scorehandler = scorehandler;
+    }
 
     public Handler getHandler() {
         return handler;

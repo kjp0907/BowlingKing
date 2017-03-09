@@ -10,16 +10,27 @@ public class CircleMembers {
     String MemberId; //멤버 Id
     String MemberName; //멤버 닉네임
     String MemberBest;
+    String MemberPic;
     //int MemberBest;
 
 
+    public String getMemberPic() {
+        return MemberPic;
+    }
+
+    public void setMemberPic(String memberPic) {
+        MemberPic = memberPic;
+    }
+
     @Override
+
     public String toString() {
         return "CircleMembers{" +
-                "MemberBest='" + MemberBest + '\'' +
-                ", MemberName='" + MemberName + '\'' +
+                "MemberIndex='" + MemberIndex + '\'' +
                 ", MemberId='" + MemberId + '\'' +
-                ", MemberIndex=" + MemberIndex +
+                ", MemberName='" + MemberName + '\'' +
+                ", MemberBest='" + MemberBest + '\'' +
+                ", MemberPic='" + MemberPic + '\'' +
                 '}';
     }
 

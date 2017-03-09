@@ -1,110 +1,111 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context="com.example.tacademy.bowlingkingproject.TabPager.totalRanking.AlleyRankingFragment">
-
-    <LinearLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="현재 볼링장"
-            android:textColor="@color/red"
-
-            />
+        android:layout_height="wrap_content"
+        tools:context="com.example.tacademy.bowlingkingproject.TabPager.totalRanking.AlleyRankingFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_height="500dp"
+            android:orientation="vertical">
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_weight="4"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/ranking_alley"
+                android:text="현재 볼링장"
+                android:textColor="@color/red"
+
                 />
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="검색"
-                android:background="@drawable/round_background"
-                android:textColor="#ffffff"
-                android:layout_height="28dp"
-                android:id="@+id/alleyrankingbtn"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <AutoCompleteTextView
+                    android:hint="볼링장 검색"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/finderjp"
+                    android:ems="10"
+                    android:completionThreshold="1"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="선택"
+                    android:background="@drawable/round_background"
+                    android:textColor="#ffffff"
+                    android:layout_height="28dp"
+                    android:id="@+id/alleyrankingbtn"
+                    android:onClick="onSelectJp"
+                    />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#7F7F71">
+
+            </FrameLayout>
+
+
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="20dp">
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#f2f2f2">
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="나의 랭킹"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/red"
+                />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/alley_my_listview"
+                />
+
+            <FrameLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#f2f2f2">
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="전체 랭킹"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/red"
+                />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/alley_total_listview"
                 />
         </LinearLayout>
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp">
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#7F7F71">
-
-        </FrameLayout>
 
 
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp">
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#f2f2f2">
-
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="나의 랭킹"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/red"
-            />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/alley_my_listview"
-            />
-
-        <FrameLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#f2f2f2">
-
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="전체 랭킹"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/red"
-            />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/alley_total_listview"
-            />
-    </LinearLayout>
-
-
-
-</FrameLayout>
+    </FrameLayout>

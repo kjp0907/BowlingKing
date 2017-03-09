@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -37,8 +39,8 @@ public class AlleyRankingFragment extends Fragment {
 
     AlleyListViewAdapter total_all_adapter;
     AlleyMyListViewAdpater my_all_adapter;
-    Response<ResAll> ress;
 
+    AutoCompleteTextView SearchViewItem;
     public AlleyRankingFragment() {
         // Required empty public constructor
     }
@@ -49,6 +51,8 @@ public class AlleyRankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_alley_ranking, container, false);
+        SearchViewItem = (AutoCompleteTextView)view.findViewById(R.id.finderjp);
+        SearchViewItem.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, autoKeyword));
         alleyArrayLists = new ArrayList<ConData>();
         // [서버통신] =================================================================================
         Call<ResAll> res =  NetSSL.getInstance().getMemberImpFactory().ranklist_two("0", "-1", "1", "5");
@@ -133,6 +137,7 @@ public class AlleyRankingFragment extends Fragment {
 
 
     }
+    String autoKeyword[]={"제이앤제이볼링센터", "삼모스포렉스볼링쎈타", "미화볼링장", "한영PLAZA볼링쎈타", "경남볼링장", "동보볼링센타", "보스턴볼링장", "한숲볼링센타"};
 
 
     class ViewAlleyTotalHolder {

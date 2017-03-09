@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/dialog_text_title"
             android:layout_marginTop="5dp"
+            android:textSize="15dp"
             android:layout_marginLeft="10dp" />
 
         <FrameLayout
@@ -43,7 +44,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btn_center"
-                android:onClick="onScoreButton"
                 android:layout_weight="1"
                 android:hint="점수입력"
                 android:inputType="number"
@@ -67,19 +67,21 @@
 
             <Button
                 android:text="취소"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
                 android:id="@+id/btn_left"
                 android:textColor="@color/white"
-
+                android:layout_weight="1"
+                android:paddingRight="4dp"
                 android:background="@drawable/round_gray"/>
 
             <Button
                 android:text="등록"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:textColor="@color/white"
                 android:background="@drawable/round_background"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:layout_weight="1"
                 android:id="@+id/btn_right"/>
         </LinearLayout>
     </LinearLayout>

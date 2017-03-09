@@ -15,39 +15,58 @@
 
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="내 동호회  :    "
+                android:textColor="@color/red"
                  />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="T 볼링장"
+                android:id="@+id/centernames"
+                android:textSize="20dp"
+                />
+
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 />
 
             <Button
                 android:text="작성하기"
-                android:layout_height="20dp"
+                android:layout_height="23dp"
                 android:id="@+id/write"
                 android:background="@drawable/round_background"
-                android:textColor="#f2f2f2"
-                android:onClick="onClickWrite"
-                android:layout_width="60dp"
-                android:layout_marginLeft="145dp" />
+                android:textColor="@color/white"
+                android:layout_width="70dp"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"/>
 
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <FrameLayout
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/gray"
+            ></FrameLayout>
+
+        <ListView
             android:layout_width="match_parent"
             android:layout_height="430dp"
             android:id="@+id/recyclerView"
-            tools:listitem="@layout/cell_post_layout" />
+             />
 
 
     </LinearLayout>

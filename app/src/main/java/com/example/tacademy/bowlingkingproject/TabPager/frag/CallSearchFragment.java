@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.tacademy.bowlingkingproject.R;
 import com.example.tacademy.bowlingkingproject.Server.NetSSL;
+import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ResCirclesSearch;
 import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ResDetail;
 import com.example.tacademy.bowlingkingproject.imageProc;
 
@@ -40,6 +41,11 @@ public class CallSearchFragment extends Fragment {
     TextView curDotjp;
 
     TextView bestScore,countGame;
+
+    TextView userCircle;
+    TextView score1,score2,score3;
+    TextView fr_nickname1,fr_nickname2,fr_nickname3;
+    ImageView profile1,profile2,profile3;
 
 //    String[] poster =
 //            {
@@ -201,7 +207,48 @@ public class CallSearchFragment extends Fragment {
         });
 
 
+        // 동호회 기록  뿌리기 =========================================================================================
+        score1=(TextView)view.findViewById(R.id.score1);
+        score2=(TextView)view.findViewById(R.id.score2);
+        score3=(TextView)view.findViewById(R.id.score3);
+        fr_nickname1=(TextView)view.findViewById(R.id.fr_nickname1);
+        fr_nickname2=(TextView)view.findViewById(R.id.fr_nickname2);
+        fr_nickname3=(TextView)view.findViewById(R.id.fr_nickname3);
+        profile1=(ImageView)view.findViewById(R.id.profile1);
+        profile2=(ImageView)view.findViewById(R.id.profile2);
+        profile3=(ImageView)view.findViewById(R.id.profile3);
 
+
+
+        Call<ResCirclesSearch> ress = NetSSL.getInstance().getMemberImpFactory().eighteenCircleSearch(-1); // 30범위 내
+        ress.enqueue(new Callback<ResCirclesSearch>() {
+            @Override
+            public void onResponse(Call<ResCirclesSearch> call, Response<ResCirclesSearch> response) {
+                if (response.isSuccessful()) {
+                    if( response.body()!=null && response.body().getResult() != null ){
+                        score2.setText(response.body().getResult().getCircleData().getCircleMembers().get(0).getMemberBest()+"점");
+                        fr_nickname2.setText(response.body().getResult().getCircleData().getCircleMembers().get(0).getMemberName());
+                        score1.setText(response.body().getResult().getCircleData().getCircleMembers().get(1).getMemberBest()+"점");
+                        fr_nickname1.setText(response.body().getResult().getCircleData().getCircleMembers().get(1).getMemberName());
+                        score3.setText(response.body().getResult().getCircleData().getCircleMembers().get(2).getMemberBest()+"점");
+                        fr_nickname3.setText(response.body().getResult().getCircleData().getCircleMembers().get(2).getMemberName());
+
+                        //profile1.setImageDrawable(response.body().getResult().getCircleData().getCircleMembers().get(0).getMemberPic());
+
+                        Log.i("RF" ,"1성공:" + response.body().getResult().toString());
+                    } else {
+                        Log.i("RF", "2실패:" + response.message());
+                    }
+                } else {
+                    Log.i("RF", "3통신은 됬는데 실패:" + response.message());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResCirclesSearch> call, Throwable t) { //통신 자체 실패
+                Log.i("RF", " onBoardSearch  4아예 통신오류" + t.getMessage());
+            }
+        });
+        // =======================================================================================================
 
 
         return view;

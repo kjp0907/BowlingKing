@@ -62,8 +62,6 @@ public class SignUpActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up2);
 //        ButterKnife.bind(this);
-        this.getSupportActionBar().setTitle(""); //상단부 제목 부분 설정
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true); //뒤로가기 버튼 보여주기
         joinInfo = (UserInfoVo)this.getIntent().getSerializableExtra(E.KEY.USERINFO);
         id_et = (EditText) this.findViewById(joinUserId);
         password_et = (EditText) findViewById(joinUserPassword);

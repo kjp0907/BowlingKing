@@ -84,7 +84,7 @@ public class ExpandAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 Log.i("RF", "삭제하기 눌렀을 때 몇 번째니 넌? : " + groupPosition);
-                Call<ResScoresTwelve> res = NetSSL.getInstance().getMemberImpFactory().twelveSelfScoreDelete(score_id);
+                Call<ResScoresTwelve> res = NetSSL.getInstance().getMemberImpFactory().twelveSelfScoreDelete( MyDataList.get(groupPosition).getScoreId());
                 res.enqueue(new Callback<ResScoresTwelve>() {
                     @Override
                     public void onResponse(Call<ResScoresTwelve> call, Response<ResScoresTwelve> response) {

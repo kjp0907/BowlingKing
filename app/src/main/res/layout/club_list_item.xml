@@ -6,46 +6,71 @@
 
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 위"
+        android:text="1"
+        android:layout_gravity="center"
+
         android:id="@+id/club_ranking"
+        android:textSize="17dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="위"
+        android:layout_gravity="center"
+
+        android:textSize="17dp"
         />
 
 
-    <FrameLayout
-        android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:background="#7F7F71"
-        ></FrameLayout>
+    <View
+        android:layout_width="20dp"
+        android:layout_height="2dp"
+        />
 
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_gravity="center"
+
         android:background="@drawable/ic_profile"
         />
 
     <TextView
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="5dp"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/club_nickname"
         android:text="민서룽"
-        android:textSize="40dp" />
+        android:layout_gravity="center"
+
+        android:textSize="17dp" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
 
     <TextView
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/club_score"
         android:text="128"
-        android:textSize="35dp" />
+        android:layout_gravity="center"
+
+        android:textColor="@color/red"
+        android:textSize="17dp" />
 
 
     <TextView
-        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="점"
-        android:textSize="35dp" />
+        android:layout_gravity="center"
+
+        android:textColor="@color/red"
+        android:textSize="17dp" />
 
 </LinearLayout>

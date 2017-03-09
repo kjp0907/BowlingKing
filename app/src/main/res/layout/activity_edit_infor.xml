@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_sign_up2"
+    android:id="@+id/activity_edit_infor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-android:background="@color/white"
     android:orientation="vertical"
-    tools:context="com.example.tacademy.bowlingkingproject.SignUpActivity">
+    tools:context="com.example.tacademy.bowlingkingproject.TabPager.ui.EditInforActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -21,8 +20,8 @@ android:background="@color/white"
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="22dp"
-            android:text="로그인"
+            android:layout_height="wrap_content"
+            android:text="수정하기"
             android:textSize="17dp"
             android:layout_gravity="center"
             android:textColor="@color/white"
@@ -32,52 +31,60 @@ android:background="@color/white"
 
     </android.support.v7.widget.Toolbar>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    >
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingRight="12dp"
-        android:paddingLeft="12dp"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:orientation="horizontal"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            >
+            android:orientation="horizontal">
+
 
             <TextView
+                android:text="e-mail  :  "
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="ID  :  "
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:ems="10"
-                android:id="@+id/loginid"
-                android:layout_weight="1"
-                android:hint="sj094k" />
-
-
+                android:id="@+id/editUserEmail"
+                android:layout_weight="1" />
         </LinearLayout>
 
 
 
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal">
 
+
+            <TextView
+                android:text="nickName  :  "
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:ems="10"
+                android:id="@+id/editUserNickName"
+                android:layout_weight="1" />
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,9 +104,8 @@ android:background="@color/white"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
                 android:ems="10"
-                android:id="@+id/loginpassword"
-                android:layout_weight="1"
-                android:hint="stlhj3262" />
+                android:id="@+id/editUserPassword"
+                android:layout_weight="1" />
         </LinearLayout>
 
 
@@ -111,30 +117,17 @@ android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:id="@+id/joinSubmit"
-                android:text = "로그인"
-                android:background="@drawable/round_setting"
-                android:onClick="onClickedLoginbtn"
+                android:text = "수정하기"
+                android:textColor="@color/white"
+                android:background="@drawable/round_red"
+                android:onClick="onEdit"
                 />
+
 
 
         </LinearLayout>
 
-
     </LinearLayout>
-
-
-
-</LinearLayout>
-
-
-
-
-    <TextView
-        android:text="제발 기록삭제 누르지마세요ㅠ"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView8"
-        android:textSize="30sp" />
 
 
 </LinearLayout>

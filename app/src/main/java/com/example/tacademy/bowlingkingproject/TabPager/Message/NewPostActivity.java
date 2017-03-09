@@ -7,19 +7,22 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.tacademy.bowlingkingproject.R;
-import com.example.tacademy.bowlingkingproject.TabPager.model.Post;
-import com.google.firebase.database.DatabaseError;
+import com.example.tacademy.bowlingkingproject.Server.NetSSL;
+import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ReqCirclesTwentyThree;
+import com.example.tacademy.bowlingkingproject.Server.ReviseServer.ResCirclesTwentyThree;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class NewPostActivity extends BaseActivity {
     EditText content;
 //    FirebaseDatabase firebaseDatabase;
 //    DatabaseReference databaseReference;
     Button complete;
+    String contents;
 
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -35,9 +38,14 @@ public class NewPostActivity extends BaseActivity {
 
 
         complete = (Button) findViewById(R.id.write_complete);
+
+
+
         complete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                contents=content.getText().toString();
                 onSendPost();
             }
 
@@ -52,7 +60,7 @@ public class NewPostActivity extends BaseActivity {
 
 
     public void onSendPost(){
-
+/*
         //작성 글 입력
         final String content_str = content.getText().toString();
         Log.i("content 에 들어갔을까",content_str);
@@ -80,6 +88,32 @@ public class NewPostActivity extends BaseActivity {
 
         //로딩 닫기
         hideProgress();
+        //
+        파베*/
+
+        Call<ResCirclesTwentyThree> res = NetSSL.getInstance().getMemberImpFactory().twentyThreeCircleInsert(-1,new ReqCirclesTwentyThree(contents,1));
+        res.enqueue(new Callback<ResCirclesTwentyThree>() {
+            @Override
+            public void onResponse(Call<ResCirclesTwentyThree> call, Response<ResCirclesTwentyThree> response) {
+                if (response.isSuccessful()) {
+                    if( response.body()!=null && response.body().getResult() != null ){
+                        Log.i("RF" ,"1성공:" + response.body().getResult().toString());
+                    } else {
+                        Log.i("RF", "2실패:" + response.message());
+                    }
+                } else {
+                    Log.i("RF", "3통신은 됬는데 실패:" + response.message());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResCirclesTwentyThree> call, Throwable t) { //통신 자체 실패
+                Log.i("RF", " onBoardSearch  4아예 통신오류" + t.getMessage());
+            }
+        });
+
+
+
+
         //화면 닫힘
         finish();
 

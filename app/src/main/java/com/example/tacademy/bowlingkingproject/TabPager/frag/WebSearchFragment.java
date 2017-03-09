@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.tacademy.bowlingkingproject.Dialog.CustomScoreDialog;
 import com.example.tacademy.bowlingkingproject.Dialog.LocationDialog;
 import com.example.tacademy.bowlingkingproject.R;
@@ -85,6 +86,7 @@ import rx.schedulers.Schedulers;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION_CODES.M;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -101,6 +103,7 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
     private boolean mapsSupported = true;
     MapView mapview;
     double x,y; //위도 경도
+    Button stroageinfo;
 
     //볼링장 리스트
     ArrayList<CenterData> centersArrayLists;
@@ -108,6 +111,7 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
     ListView centerlist;
     CenterListAdpater center_adapter;
     String Centername;
+  //  TextView scoretoastjp;
 
 
 
@@ -269,7 +273,10 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
         context=getActivity();
         scoretoastjp= (TextView) view.findViewById(R.id.scoretoastjp);
         alleysearchjp = (TextView)view.findViewById(R.id.alleysearchjp);
+        stroageinfo = (Button)view.findViewById(R.id.stroageinfo);
 
+
+        // 점수 클릭 시 다이얼로그 띄우기 =====================================================================
         scoretoastjp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -279,14 +286,22 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
                     public void onResponse(Call<ResDetail> call, Response<ResDetail> response) {
                         if (response.isSuccessful()) {
                             if( response.body()!=null && response.body().getResult() != null ){
-                                mCustomDialog = new CustomScoreDialog(getActivity(),
-                                        "점수를 등록하세요", // 제목
-                                        ""+response.body().getResult().getUserData().getUserName() +"  님의 점수는", //앞의 내용
-                                        "점 입니다", // 뒤의 내용
-                                        leftListener, // 왼쪽 버튼 이벤트
-                                        rightListener, // 오른쪽 버튼 이벤트
-                                        centerListener);
+
+                                final CustomScoreDialog mCustomDialog= new CustomScoreDialog(context);
+                                mCustomDialog.setContentView(R.layout.dialog_location);
+                                mCustomDialog.setTitle("점수를 등록하세요.");
+
                                 mCustomDialog.show();
+
+//
+//                                mCustomDialog = new CustomScoreDialog(getActivity(),
+//                                        "점수를 등록하세요", // 제목
+//                                        ""+response.body().getResult().getUserData().getUserName() +"  님의 점수는", //앞의 내용
+//                                        "점 입니다", // 뒤의 내용
+//                                        leftListener, // 왼쪽 버튼 이벤트
+//                                        rightListener, // 오른쪽 버튼 이벤트
+//                                        centerListener);
+//                                mCustomDialog.show();
                                 Log.i("RF" ,"1성공:" + response.body().getResult().toString());
                             } else {
                                 Log.i("RF", "2실패:" + response.message());
@@ -303,6 +318,10 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
 
             }
         });
+
+
+        // ===================================================================================================================
+
         cameraimageView = (ImageView)view.findViewById(R.id.cameraimageView);
         cameraimageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -376,7 +395,6 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
                                 Log.i("RF", "gps 인근 리스트"+ response.body().getResult().toString());
 
 
-//
                                 centersArrayLists.addAll(response.body().getResult().getCenterData());
                                 center_adapter.notifyDataSetChanged();
 
@@ -425,12 +443,93 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
             //   api.getErrorDialog(this, code, 0).show();
         }
 
+        stroageinfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Call<ResScores> res = NetSSL.getInstance().getMemberImpFactory().tenSelfScoreRecord(new ReqScores(center_id, regscore, loadpath));
+//                            res.enqueue(new Callback<ResScores>() {
+//                                @Override
+//                                public void onResponse(Call<ResScores> call, Response<ResScores> response) {
+//                                    if (response.isSuccessful()) {
+//                                        if (response.body() != null && response.body().getResult() != null) {
+//                                            //ArticlesData aad = response.body().getResult().getArticlesData();
+//                                            //ArticlesData aad = response.body().getResult().getMessage();
+//                                            //Log.i("RF","1성공:"+aad.toString());
+////                        ResArticles resArticles = response.body();
+//                                            Log.i("등록", "1성공:" + response.body().getResult().toString());
+//                                        } else {
+//                                            Log.i("RF", "2실패:" + response.message());
+//                                        }
+//                                    } else {
+//                            Log.i("RF", "3통신은 됬는데 실패:" + response.message());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ResScores> call, Throwable t) { //통신 자체 실패
+//                        Log.i("RF", " onBoardSearch  4아예 통신오류" + t.getMessage());
+//                    }
+//                });
 
+                sendStorageInfo(center_id, regscore, loadpath);
+
+            }
+        });
 
         return view;
     }
 
+
+    public void sendStorageInfo(int id, String regscore, String path){
+        // 사진 서버 업로드 --------------------------------------------------------------------------
+        Map<String, RequestBody> map = new HashMap<>();
+
+        // 멥에서 사진말공
+        map.put("center_id", RequestBody.create(MediaType.parse("multipart/form-data"), id+"") );
+        map.put("score_num", RequestBody.create(MediaType.parse("multipart/form-data"), regscore) );
+
+
+        File file = new File(path); // 이미지파일주소는 확인됨
+
+
+        Log.i("RF", file.getAbsolutePath() + "++" + file.canRead());
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+        map.put("score_pic\"; filename=\"score.jpg\"", fileBody);
+
+        Call<ResPictureTest> res = NetSSL.getInstance().getMemberImpFactory().pictureTest(map);
+        res.enqueue(new Callback<ResPictureTest>() {
+            @Override
+            public void onResponse(Call<ResPictureTest> call, Response<ResPictureTest> response) {
+                if (response.toString() != null) {
+                    Log.i("RF", "프로필 사진 변경 성공:" + response.toString());
+                    //loadProfile();
+                    //             Log.i("RF","가입성공:"+response.body().getResult().toString());
+                } else {
+                    Log.i("RF", "프로필 사진 변경 실패:" + response.body().getError().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResPictureTest> call, Throwable t) {
+                Log.i("RF", "프로필 사진 변경  통신오류" + t.getMessage());
+            }
+        });
+
+        Toast.makeText(getContext(),"점수등록이 완료되었습니다. 짝짝짝!!!",Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+
+
+
     TextView alleysearchjp;
+    int center_id;
+    String regscore;
     android.os.Handler handler = new android.os.Handler(){
 
         @Override
@@ -438,16 +537,30 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
             super.handleMessage(msg);
             if(msg.what==0){
                 String[] location = (String[])msg.obj;
+                center_id=(int)msg.arg1;
+
+                Log.i("AB","CenterID"+center_id);
 
                 Log.i("AB","WebFrag"+location[1]);
                 Centername=location[1];
                 alleysearchjp.setText(Centername);
 
                 Log.i("AB","Centername"+Centername);
+
+
+            }else if(msg.what==1){
+                regscore= (String)msg.obj;
+
+
+                scoretoastjp.setText(regscore);
+
+                Log.i("AB","regscore"+regscore);
             }
 
         }
     };
+
+
 
 
     class CenterListAdpater extends BaseAdapter{
@@ -693,10 +806,6 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
         }
     };
 
-
-
-
-
     SweetAlertDialog alert;
     public void onPhoto(View view){
         alert =
@@ -802,6 +911,7 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
                     loadImage(response.data());
                 });
     }
+    String loadpath;
     public void loadImage(String path){
         alert.dismissWithAnimation();
         Log.d("Test","url :   "+path+"");
@@ -809,6 +919,7 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
         Log.d("Test","cameraimageView :   "+cameraimageView.toString()+"");
         //이미지 뷰에 이미지를 셋팅   //path : /data/data/com.example.tacademy.photoprocessing/files/PhotoProcessing/파일명.jpg
         String url = "file://"+path;
+        loadpath=path;
 
         Picasso.with(context).setLoggingEnabled(true);
         Picasso.with(context).setIndicatorsEnabled(true);
@@ -883,7 +994,12 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
         // 사진 서버 업로드 --------------------------------------------------------------------------
         Map<String, RequestBody> map = new HashMap<>();
 
+        // 멥에서 사진말공
+        map.put("center_id", RequestBody.create(MediaType.parse("multipart/form-data"), "1") );
+
+
         File file = new File(path); // 이미지파일주소는 확인됨
+
 
         Log.i("RF", file.getAbsolutePath() + "++" + file.canRead());
 
@@ -911,45 +1027,46 @@ public class WebSearchFragment extends Fragment implements OnMapReadyCallback, G
         });
     }
 
+
     //////////////////////////////////////////////
-    private CustomScoreDialog mCustomDialog;
-    private View.OnClickListener leftListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getActivity(), "왼쪽버튼 클릭",
-                    Toast.LENGTH_SHORT).show();
-            mCustomDialog.dismiss();
-        }
-    };
-    private View.OnClickListener rightListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getActivity(), "오른쪽버튼 클릭",
-                    Toast.LENGTH_SHORT).show();
-        }
-    };
-    private View.OnClickListener centerListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getActivity(), "스코어버튼 클릭",
-                    Toast.LENGTH_SHORT).show();
-        }
-    };
+//    private CustomScoreDialog mCustomDialog;
+//    private View.OnClickListener leftListener = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            Toast.makeText(getActivity(), "왼쪽버튼 클릭",
+//                    Toast.LENGTH_SHORT).show();
+//            mCustomDialog.dismiss();
+//        }
+//    };
+//    private View.OnClickListener rightListener = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            Toast.makeText(getActivity(), "오른쪽버튼 클릭",
+//                    Toast.LENGTH_SHORT).show();
+//        }
+//    };
+//    private View.OnClickListener centerListener = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            Toast.makeText(getActivity(), "스코어버튼 클릭",
+//                    Toast.LENGTH_SHORT).show();
+//        }
+//    };
 
 
     private LocationDialog locationDialog;
-
-    private View.OnClickListener location_no = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getActivity(), "왼쪽버튼 클릭",
-                    Toast.LENGTH_SHORT).show();
-            locationDialog.dismiss();
-        }
-    };
-    private View.OnClickListener location_ok = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getActivity(), "오른쪽버튼 클릭",
-                    Toast.LENGTH_SHORT).show();
-        }
-    };
-
+//
+//    private View.OnClickListener location_no = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            Toast.makeText(getActivity(), "왼쪽버튼 클릭",
+//                    Toast.LENGTH_SHORT).show();
+//            locationDialog.dismiss();
+//        }
+//    };
+//    private View.OnClickListener location_ok = new View.OnClickListener() {
+//        public void onClick(View v) {
+//            Toast.makeText(getActivity(), "오른쪽버튼 클릭",
+//                    Toast.LENGTH_SHORT).show();
+//        }
+//    };
+//
 
 
 

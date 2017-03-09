@@ -32,7 +32,7 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     public void onLogout(View view){
-        Toast.makeText(this, "로그아웃", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
         Call<ResUsersSix> res = NetSSL.getInstance().getMemberImpFactory().sixLocalLogout();
         res.enqueue(new Callback<ResUsersSix>() {
             @Override
@@ -63,7 +63,7 @@ public class SettingActivity extends AppCompatActivity {
 
 
     public void onWithdrawal(View view){
-        Toast.makeText(this, "회원 탈퇴", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "탈퇴 되었습니다.", Toast.LENGTH_SHORT).show();
         Call<ResUsersFive> res = NetSSL.getInstance().getMemberImpFactory().fiveByeBye();
         res.enqueue(new Callback<ResUsersFive>() {
             @Override
@@ -87,6 +87,14 @@ public class SettingActivity extends AppCompatActivity {
                 Log.i("RF", " onBoardSearch  4아예 통신오류" + t.getMessage());
             }
         });
+        Intent intent =new Intent (this,MainActivity.class);
+        startActivity(intent);
 
+    }
+
+
+    public void onEditInfo(View view){
+        Intent intent = new Intent(this, EditInforActivity.class);
+        startActivity(intent);
     }
 }

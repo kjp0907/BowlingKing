@@ -285,7 +285,7 @@ public class Main2Activity extends AppCompatActivity {
     }
 
 
-/* ****************************o 나중에
+/*
     public void onTen(View view) {
         Toast.makeText(this, "게시글조회", Toast.LENGTH_SHORT).show();
         Call<ResScores> res = NetSSL.getInstance().getMemberImpFactory().tenSelfScoreRecord(new ReqScores());

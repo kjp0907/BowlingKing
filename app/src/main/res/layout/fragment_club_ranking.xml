@@ -6,89 +6,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
-
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ㅇㅇ동호회"
-                android:textColor="@color/red"
-                android:id="@+id/club_name"
-
-                />
-            <TextView
-                android:paddingLeft="5dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="일별 랭킹"
-                android:textColor="@color/red"
-                />
-
-        </LinearLayout>
-
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp">
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="#7F7F71">
-
-        </FrameLayout>
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <Spinner
-                android:id="@+id/spinner_year"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="28dp"
-                android:text="검색"
-                android:textColor="#ffffff"
-                android:background="@drawable/round_background"
-                />
-
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="20dp">
-
-        </FrameLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -105,11 +24,87 @@
             android:textColor="@color/red"
             />
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/club_my_listview"
-        />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="2"
+                android:layout_gravity="center"
+
+                android:id="@+id/myclubranking"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="위"
+                android:layout_gravity="center"
+
+                android:textSize="17dp"
+                />
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="2dp"
+                />
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+
+                android:background="@drawable/ic_profile"
+                />
+
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/myclubname"
+                android:text="갓갓당"
+                android:layout_gravity="center"
+                android:textSize="17dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/myclubscore"
+                android:text="128"
+                android:layout_gravity="center"
+
+                android:textColor="@color/red"
+                android:textSize="17dp" />
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="점"
+                android:layout_gravity="center"
+
+                android:textColor="@color/red"
+                android:textSize="17dp"
+               />
+        </LinearLayout>
+
+
+
+
+
+
 
 
 

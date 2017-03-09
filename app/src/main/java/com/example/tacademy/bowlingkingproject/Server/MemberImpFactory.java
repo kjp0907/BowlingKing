@@ -173,7 +173,7 @@ public interface MemberImpFactory
 
     ////////3,4,10,11번은 업로드 쎼쎼쎼쎼트, 3,4,11번은 사진 없이 성공했고, 10번 완료후 사진있이 3,4,10,11다시 테스트해야됨///////
     @Multipart
-    @POST("/users/test")
+    @POST("/scores")
     Call<ResPictureTest> pictureTest(@PartMap Map<String, RequestBody> params);
 }
 

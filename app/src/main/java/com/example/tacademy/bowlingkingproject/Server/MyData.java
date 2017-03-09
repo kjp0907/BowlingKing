@@ -12,8 +12,18 @@ public class MyData {
     String centerName;
     String pic;
     String myRank;
+    String myNick;
 
-    public MyData(String isData, String score_id, String bestScore, String playDate, String centerName, String pic, String myRank) {
+    public String getMyNick() {
+        return myNick;
+    }
+
+    public void setMyNick(String myNick) {
+        this.myNick = myNick;
+    }
+
+    public MyData(String isData, String score_id, String bestScore, String playDate, String centerName, String pic, String myRank, String myNick) {
+
         this.isData = isData;
         this.score_id = score_id;
         this.bestScore = bestScore;
@@ -21,6 +31,7 @@ public class MyData {
         this.centerName = centerName;
         this.pic = pic;
         this.myRank = myRank;
+        this.myNick = myNick;
     }
 
     public String getBestScore() {

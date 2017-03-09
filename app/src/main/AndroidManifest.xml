@@ -13,16 +13,17 @@
     <uses-feature android:name="android.hardware.camera2" />
 
     <application
-
-        android:largeHeap="true"
         android:name=".Advertisement.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/bowolinglogo"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:icon">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/AppTheme.MyNoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +34,8 @@
         <activity
             android:name=".TabPager.ui.CallSearchActivity"
             android:theme="@style/AppTheme.MyNoActionBar" />
-        <activity android:name=".TabPager.Message.NewPostActivity" />
+        <activity android:name=".TabPager.Message.NewPostActivity"
+            android:theme="@style/AppTheme.MyNoActionBar"/>
         <activity android:name=".TabPager.Register.Main3Activity" />
 
         <meta-data
@@ -41,7 +43,8 @@
             android:value="@string/kakao_app_key" />
 
         <activity android:name=".TabPager.Message.PostDetailActivity" />
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignUpActivity"
+            android:theme="@style/AppTheme.MyNoActionBar"/>
         <activity android:name=".join.TermsActivity" />
         <activity android:name=".join.JoinProcessActivity" />
         <activity android:name=".TabPager.Register.MainCustomDialog" />
@@ -71,8 +74,12 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".Server.ReviseServer.Main2Activity" />
-        <activity android:name=".TabPager.ui.SettingActivity" />
-        <activity android:name=".LoginActivity"></activity>
+        <activity android:name=".TabPager.ui.SettingActivity"
+            android:theme="@style/AppTheme.MyNoActionBar"/>
+        <activity android:name=".LoginActivity"
+            android:theme="@style/AppTheme.MyNoActionBar"/>
+        <activity android:name=".TabPager.ui.EditInforActivity"
+            android:theme="@style/AppTheme.MyNoActionBar"></activity>
     </application>
 
 </manifest>

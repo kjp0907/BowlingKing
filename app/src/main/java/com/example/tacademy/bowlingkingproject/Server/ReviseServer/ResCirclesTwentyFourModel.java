@@ -13,16 +13,15 @@ public class ResCirclesTwentyFourModel {
     String currentPage;
     String rowsPerPage;
     NoticeData noticeData;
+    String circleName;
     ArrayList<ArticleData> articleData;
 
-    public ResCirclesTwentyFourModel(int code, String message, int totalPage, String currentPage, String rowsPerPage, NoticeData noticeData, ArrayList<ArticleData> articleData) {
-        this.code = code;
-        this.message = message;
-        this.totalPage = totalPage;
-        this.currentPage = currentPage;
-        this.rowsPerPage = rowsPerPage;
-        this.noticeData = noticeData;
-        this.articleData = articleData;
+    public String getCircleName() {
+        return circleName;
+    }
+
+    public void setCircleName(String circleName) {
+        this.circleName = circleName;
     }
 
     @Override
@@ -34,8 +33,20 @@ public class ResCirclesTwentyFourModel {
                 ", currentPage='" + currentPage + '\'' +
                 ", rowsPerPage='" + rowsPerPage + '\'' +
                 ", noticeData=" + noticeData +
+                ", circleName='" + circleName + '\'' +
                 ", articleData=" + articleData +
                 '}';
+    }
+
+    public ResCirclesTwentyFourModel(int code, String message, int totalPage, String currentPage, String rowsPerPage, NoticeData noticeData, String circleName, ArrayList<ArticleData> articleData) {
+        this.code = code;
+        this.message = message;
+        this.totalPage = totalPage;
+        this.currentPage = currentPage;
+        this.rowsPerPage = rowsPerPage;
+        this.noticeData = noticeData;
+        this.circleName = circleName;
+        this.articleData = articleData;
     }
 
     public int getCode() {
